@@ -19,7 +19,9 @@ export const GlobalStyle = createGlobalStyle`
         --button-primary-hover: #FF427F;
         --button-primary-negative: #59323F;
         --button-primary-disabled: #868e96;
-        --button-primary-disabled-hover: #343b41;       
+        --button-primary-disabled-hover: #343b41;     
+        
+        --color-background: #000000;
     }
 
     *{
@@ -32,6 +34,9 @@ export const GlobalStyle = createGlobalStyle`
     body, html{
         width: 100vw;
         height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     body{

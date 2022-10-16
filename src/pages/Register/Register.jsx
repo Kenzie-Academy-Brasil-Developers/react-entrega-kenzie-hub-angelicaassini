@@ -16,7 +16,7 @@ const schema = yup.object({
     email:                yup.string().email("Deve ser um email válido").required("Email é obrigatório"),
     password:             yup.string()
                             .matches(/[A-Z]/, 'Deve conter ao menos 1 letra maiúscula')
-                            .matches(/[a-z]/, 'Deve conter apenas 1 letra minúscula')
+                            .matches(/[a-z]/, 'Deve conter ao menos 1 letra minúscula')
                             .matches(/\d/, 'Deve conter ao menos 1 número')
                             .matches(/[\W|_]/,'Deve conter um caractere especial')
                             .matches(/.{8,}/, 'Deve ter no mínimo 8 caracteres')
@@ -37,6 +37,7 @@ const Register = () => {
     const navigate = useNavigate();
 
     async function registerUser(data) {
+        console.log(data);
         await axios.post("https://kenziehub.herokuapp.com/users", data)
         .then((response) => {
             navigate('/login');
