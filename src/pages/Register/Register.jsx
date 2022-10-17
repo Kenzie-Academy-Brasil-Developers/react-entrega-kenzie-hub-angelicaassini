@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import axios from "axios";
+import apiKenzieHub from "../../services/api";
 
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -37,9 +37,8 @@ const Register = () => {
     const navigate = useNavigate();
 
     async function registerUser(data) {
-        console.log(data);
-        await axios.post("https://kenziehub.herokuapp.com/users", data)
-        .then((response) => {
+        try{
+            await apiKenzieHub.post("/users", data)
             navigate('/login');
             toast.success('Conta criada com sucesso!', {
                 position: "top-right",
@@ -51,8 +50,8 @@ const Register = () => {
                 progress: undefined,
                 theme: "dark",
                 });
-        })
-        .catch((error) => {
+        }
+        catch(error){
             toast.error('Ops! Algo deu errado', {
                 position: "top-right",
                 autoClose: 4000,
@@ -63,7 +62,7 @@ const Register = () => {
                 progress: undefined,
                 theme: "dark",
                 });
-        })      
+        }     
     }
 
     return(
