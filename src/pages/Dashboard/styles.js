@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -139,4 +140,11 @@ export const StyledTechs = styled.div`
         font-size: 12px;
         color: var(--Grey-1);
     }
+`
+export const ModalLink = styled(Link)`
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background-color: var(--Grey-3);
+    color: #FFFFFF;
 `

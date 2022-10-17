@@ -3,10 +3,10 @@ import {Navigate, Outlet, useLocation} from 'react-router-dom';
 import { UserContext } from "../../contexts/UserContext";
 
 const ProtectedRoutes = () => {
-    const {user, loading} = useContext(UserContext);
+    const {user, globalLoading} = useContext(UserContext);
     const location = useLocation();
 
-    if(loading) {
+    if(globalLoading) {
         return null;
     }
 

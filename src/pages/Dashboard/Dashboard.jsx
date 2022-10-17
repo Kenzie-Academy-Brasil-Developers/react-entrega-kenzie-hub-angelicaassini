@@ -1,28 +1,33 @@
+import { UserContext } from "../../contexts/UserContext";
+import { TechContext } from "../../contexts/TechContext";
+
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../contexts/UserContext";
 
 import { Container, StyledNav, StyledTechs } from "./styles";
+import {ModalLink as Link} from "./styles";
 import Logo from "../../services/Logo.png";
 
 import {BsTrash} from "react-icons/bs";
 
 const Dashboard = () => {
-  const { user, setUser, removeTech } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const { removeTech } = useContext(TechContext);
+
   const techs = user.techs
   const navigate = useNavigate();
 
   function logout() {
     setUser(null);
     localStorage.removeItem('@KENZIEHUB-TOKEN');
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   }
 
-  return (
+  return(
     <Container>
       <StyledNav>
         <img src={Logo} alt="logo Kenzie Hub" />
-        <button onClick={logout}>Sair</button>
+        <button type="button" onClick={() => logout}>Sair</button>
       </StyledNav>
 
       <header>
@@ -31,8 +36,10 @@ const Dashboard = () => {
       </header>
 
       <StyledTechs>
-        <h2>Tecnologias</h2>
-
+        <div>
+          <h2>Tecnologias</h2>
+          <Link to={'/modal'}>+</Link>
+        </div>
         <ul>
           {techs.map(tech => (
             <li key = {tech.id}>
@@ -46,9 +53,8 @@ const Dashboard = () => {
             </li>
           ))}
         </ul>
-
       </StyledTechs>
     </Container>
-  );
+  )
 };
 export default Dashboard;

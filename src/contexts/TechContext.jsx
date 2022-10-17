@@ -46,34 +46,44 @@ const TechProvider = ({children, createTech}) => {
     }, [setGlobalLoading]);
 
 
-    useEffect(() => {
-        async function removeTech(tech_id){
-            const token = localStorage.getItem("@KENZIEHUB-TOKEN");
+    async function removeTech(tech_id){
+        const token = localStorage.getItem("@KENZIEHUB-TOKEN");
 
-            if(token){
-                try{
-                    await apiKenzieHub.delete("/users/techs/:tech_id")
+        if(token){
+            try{
+                await apiKenzieHub.delete("/users/techs/:tech_id")
+                const newTechs = techs.filter((tech) => tech.id !== tech_id)
+                setTechs(newTechs)
+                toast.success('Tecnologia removida com sucesso!', {
+                    position: "top-right",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    });
 
-                }
-                catch(error){
-                    toast.error('Ops! Algo deu errado', {
-                        position: "top-right",
-                        autoClose: 4000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                        });
-                }
+            }
+            catch(error){
+                toast.error('Ops! Algo deu errado', {
+                    position: "top-right",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    });
             }
         }
-        removeTech();
-    }, []);
+    };
+    
 
     return(
-        <TechContext.Provider value={{techs}}>
+        <TechContext.Provider value={{techs, removeTech}}>
             {children}
         </TechContext.Provider>
     )

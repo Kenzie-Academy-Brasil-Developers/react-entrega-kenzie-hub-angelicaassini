@@ -1,15 +1,13 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-
-import apiKenzieHub from "../../services/api";
 
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Container, StyledRegisterForm } from "./styles";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const schema = yup.object({
     name:                 yup.string().required("Nome é obrigatório"),
@@ -34,36 +32,7 @@ const Register = () => {
         resolver: yupResolver(schema),
     });
 
-    const navigate = useNavigate();
-
-    async function registerUser(data) {
-        try{
-            await apiKenzieHub.post("/users", data)
-            navigate('/login');
-            toast.success('Conta criada com sucesso!', {
-                position: "top-right",
-                autoClose: 4000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                });
-        }
-        catch(error){
-            toast.error('Ops! Algo deu errado', {
-                position: "top-right",
-                autoClose: 4000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                });
-        }     
-    }
+    const {registerUser} = useContext(UserContext)  
 
     return(
         <Container> 

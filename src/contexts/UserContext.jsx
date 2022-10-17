@@ -13,6 +13,35 @@ const UserProvider = ({children})  => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    async function registerUser(data) {
+        try{
+            await apiKenzieHub.post("/users", data)
+            navigate('/');
+            toast.success('Conta criada com sucesso!', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
+        }
+        catch(error){
+            toast.error('Ops! Algo deu errado', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
+        }     
+    }
+
     useEffect(() => {
         async function loadUser(){
             const token = localStorage.getItem('@KENZIEHUB-TOKEN');
@@ -59,7 +88,7 @@ const UserProvider = ({children})  => {
             localStorage.setItem('@KENZIEHUB-TOKEN', token);
             localStorage.setItem('@KENZIEHUB-USERID', user);
             
-            const toNavigate = location.state?.from?.pathname || 'dashboard'
+            const toNavigate = location.state?.from?.pathname || '/dashboard'
         
             navigate(toNavigate, {replace: true});
         }
@@ -75,11 +104,14 @@ const UserProvider = ({children})  => {
                 theme: "dark",
                 });
         }
+        finally{
+            setGlobalLoading(false)
+        }
     }
     
 
     return (
-        <UserContext.Provider value={{loginUser, user, globalLoading}}>
+        <UserContext.Provider value={{registerUser, loginUser, user, globalLoading}}>
             {children}
         </UserContext.Provider>
     );
