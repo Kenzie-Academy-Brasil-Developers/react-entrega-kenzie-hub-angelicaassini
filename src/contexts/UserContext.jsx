@@ -13,6 +13,39 @@ const UserProvider = ({children})  => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    useEffect(() => {
+        async function loadUser(){
+            const token = localStorage.getItem('@KENZIEHUB-TOKEN');
+
+            if(token){
+                setGlobalLoading(true);
+                try{
+                    apiKenzieHub.defaults.headers.authorization = `Bearer ${token}`
+                    const {data} = await apiKenzieHub.get('/profile');
+                    setUser(data);
+                }
+                catch(error){
+                    localStorage.removeItem('@KENZIEHUB-TOKEN');
+                    localStorage.removeItem('@USERID')
+                    toast.error("Ops! Algo deu errado", {
+                        position: "top-right",
+                        autoClose: 4000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                      });
+                }
+                finally{
+                    setGlobalLoading(false);
+                }
+            }
+        }
+        loadUser();
+    }, []);
+
     
     async function loginUser(data, setGlobalLoading){
 
@@ -44,37 +77,6 @@ const UserProvider = ({children})  => {
         }
     }
     
-    useEffect(() => {
-        (async () => {
-            const token = localStorage.getItem('@KENZIEHUB-TOKEN');
-
-            if(token){
-                setGlobalLoading(true);
-                try{
-                    apiKenzieHub.defaults.headers.authorization = `Bearer ${token}`
-                    const {data} = await apiKenzieHub.get('/profile');
-                    setUser(data);
-                }
-                catch(error){
-                    localStorage.removeItem('@KENZIEHUB-TOKEN');
-                    localStorage.removeItem('@USERID')
-                    toast.error("Ops! Algo deu errado", {
-                        position: "top-right",
-                        autoClose: 4000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                      });
-                }
-                finally{
-                    setGlobalLoading(false);
-                }
-            }
-        })();  /*que é esse parenteses()?*/
-    }, []);
 
     return (
         <UserContext.Provider value={{loginUser, user, globalLoading}}>
