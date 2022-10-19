@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const Container = styled.div`
-width: 100%;
+export const ContainerDashboard = styled.div`
+width: 48.75em;
 height: 720px;
 max-width: 1200px;
 padding: 16px;
@@ -10,13 +9,14 @@ background: var(--Grey-4);
 display: flex;
 flex-direction: column;
 margin: 0 auto;
+position: relative;
 
 header{
         width: 100%;
         height: 118px;
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         background-color: var(--Grey-4);
 
@@ -54,8 +54,7 @@ export const StyledNav = styled.nav`
         background: var(--Grey-3); 
         border: 1px solid var(--Grey-3);
         border-radius: 4px;
-        margin: 0 auto;
-
+        
         font-weight: 600;
         font-size: 12px;
         color: var(--Grey-0);
@@ -63,88 +62,93 @@ export const StyledNav = styled.nav`
 `
 
 export const StyledTechs = styled.div`
+    width: 100%;
+    max-width: 780px;
+    height: 502px;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-width: 370px;
-    height: 502px;
-   
-    justify-content: space-between;
-    padding: 42px 0 28px 0;
-
-    background: var(--Grey-3);
-    box-shadow: 0px 4px 40px -10px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-
     font-family: 'Inter';
 
-    .h2{
-        font-weight: 700;
-        font-size: 18px;
-        color: var(--Grey-0);
-        padding-top: 42px;
+    div{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+
+        h2{
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--Grey-0);
+            margin-bottom: 30px;
+            }
+
+        button{
+            width: 32px;
+            height: 32px;
+            background-color: var(--Grey-3);
+            color: #FFFFFF;
         }
 
-    label{
-        font-weight: 400;
-        font-size: 12px;
-        color: var(--Grey-0);
-        text-align: left;
-        padding-left: 22px;
     }
 
-    input{
-
-        width: 330px;
-        height: 48px;
-        background: var(--Grey-2);
-        border: 1px solid var(--Grey-2);
-        border-radius: 4px;
-
-        color: var(--Grey-1);
-
-        margin: 0 auto;
-        padding-left: 22px;
-
-        @media screen and (max-width: 375px){
-            width: 90%;
-            justify-content: center;
-        }
-    }
-
-    p{
-        color: red;
-    }
-
-    button{
-        width: 326px;
-        height: 48px;
-        background: var(--button-primary-negative); 
+    ul{
+        width: 100%;     
+        max-height: 416px;
+        /* overflow-y: scroll; */
         
-        border: 1px solid var(--button-primary-negative);
-        border-radius: 4px;
-        margin: 0 auto;
+        padding: 23px 26px 24px 22px;
 
-        font-weight: 500;
-        font-size: 16px;
-        color: #FFFFFF;
-
-        @media screen and (max-width: 375px){
+        background: var(--Grey-3);
+        box-shadow: 0px 4px 40px -10px rgba(0, 0, 0, 0.25);
+        border-radius: 4px;      
+        
+        li{
             width: 90%;
-            justify-content: center;
+            height: 49px;
+            
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            h2{
+                font-weight: 700;
+                font-size: 14px;
+                color: #FFFFFF;
+                margin-top: -35px;
+            }
+
+            div{
+                width: 20%;
+                height: 100%;
+                
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                /* gap: 25px; */
+
+                position: relative;
+
+                h3{
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: var(--Grey-0);
+                    
+                }
+
+                button{
+                    background-color: transparent;
+                    width: 12px;
+                    height: 14px;
+                    position: absolute;
+                    /* top: 1px; */
+                    right: -50px;
+                }
+
+            }
+
+
         }
     }
 
-    span{
-        font-weight: 600;
-        font-size: 12px;
-        color: var(--Grey-1);
-    }
-`
-export const ModalLink = styled(Link)`
-    width: 32px;
-    height: 32px;
-    border-radius: 4px;
-    background-color: var(--Grey-3);
-    color: #FFFFFF;
 `

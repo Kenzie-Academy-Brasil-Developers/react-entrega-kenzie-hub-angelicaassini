@@ -2,18 +2,23 @@ import { Route, Routes } from "react-router-dom";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Dashboard from "../pages/Dashboard/Dashboard";
-import ProtectedRoutes from  "../components/ProtectedRoutes"
-import AddModal from "../AddModal";
+import ProtectedRoutes from  "../components/ProtectedRoutes";
+import GlobalLoading from '../components/GlobalLoading';
 
-
-const RoutesMain = () => (
+const RoutesMain = () => {  
+    
+    return(
+           
     <Routes>
-        <Route path='/' element={ <Login/> }/>
-        <Route element={<ProtectedRoutes/>}>
-            <Route path='/modal' element={<AddModal/>} />
-            <Route path='/register'  element={ <Register/> }/>
-            <Route path='/dashboard' element={ <Dashboard/> }/>
+        <Route element={<GlobalLoading/>}>
+            <Route path='/' element={ <Login/> }/>
+            <Route element={<ProtectedRoutes/>}>
+                <Route path='/register'  element={ <Register/> }/>
+                <Route path='/dashboard' element={ <Dashboard/> }/>
+            </Route>
         </Route>
     </Routes>
-)
+   
+    )
+    }
 export default RoutesMain;

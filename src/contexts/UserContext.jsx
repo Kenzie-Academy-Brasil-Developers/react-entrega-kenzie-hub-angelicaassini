@@ -8,8 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 export const UserContext = createContext({});
 
 const UserProvider = ({children})  => {
-    const [user, setUser] = useState(null);
-    const [globalLoading, setGlobalLoading] = useState();
+    const [user, setUser] = useState([]);
+    const [globalLoading, setGlobalLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -55,7 +55,7 @@ const UserProvider = ({children})  => {
                 }
                 catch(error){
                     localStorage.removeItem('@KENZIEHUB-TOKEN');
-                    localStorage.removeItem('@USERID')
+                    localStorage.removeItem('@KENZIEHUB-USERID')
                     toast.error("Ops! Algo deu errado", {
                         position: "top-right",
                         autoClose: 4000,
@@ -76,20 +76,22 @@ const UserProvider = ({children})  => {
     }, []);
 
     
-    async function loginUser(data, setGlobalLoading){
+    async function loginUser(data){
 
         try{
             setGlobalLoading(true);
             const response = await apiKenzieHub.post('/sessions', data);
+            console.log(response)
             const {user: userResponse, token} = response.data;
             apiKenzieHub.defaults.headers.authorization = `Bearer ${token}`;
-            
             setUser(userResponse);
             localStorage.setItem('@KENZIEHUB-TOKEN', token);
-            localStorage.setItem('@KENZIEHUB-USERID', user);
-            
+            localStorage.setItem('@KENZIEHUB-USERID', user.id);
+
+            console.log(location.state?.from?.pathname)
             const toNavigate = location.state?.from?.pathname || '/dashboard'
-        
+            console.log(toNavigate)
+            
             navigate(toNavigate, {replace: true});
         }
         catch(error){
@@ -111,7 +113,7 @@ const UserProvider = ({children})  => {
     
 
     return (
-        <UserContext.Provider value={{registerUser, loginUser, user, globalLoading}}>
+        <UserContext.Provider value={{registerUser, loginUser, user, setUser, globalLoading, setGlobalLoading}}>
             {children}
         </UserContext.Provider>
     );

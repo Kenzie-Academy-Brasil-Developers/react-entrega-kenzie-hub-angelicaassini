@@ -1,33 +1,42 @@
-import { UserContext } from "../../contexts/UserContext";
 import { TechContext } from "../../contexts/TechContext";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Container, StyledNav, StyledTechs } from "./styles";
-import {ModalLink as Link} from "./styles";
-import Logo from "../../services/Logo.png";
+import { ContainerDashboard, StyledNav, StyledTechs } from "./styles";
 
 import {BsTrash} from "react-icons/bs";
+import AddModal from "../../components/Modal/AddModal";
+
+import Logo from '../../services/Logo.png'
+import { UserContext } from "../../contexts/UserContext";
+
 
 const Dashboard = () => {
-  const { user, setUser } = useContext(UserContext);
-  const { removeTech } = useContext(TechContext);
+  const {modalIsOpen, setModalIsOpen, removeTech, techs, setTechs} 
+    = useContext(TechContext);
+  
+    const { user, setUser } = useContext(UserContext);
 
-  const techs = user.techs
   const navigate = useNavigate();
+
+  useEffect(() =>{
+    
+  }, [techs])
 
   function logout() {
     setUser(null);
     localStorage.removeItem('@KENZIEHUB-TOKEN');
+    localStorage.removeItem('@KENZIEHUB-USERID');
+    setTechs([])
     navigate("/", { replace: true });
   }
-
-  return(
-    <Container>
+  
+    return(
+    <ContainerDashboard>
       <StyledNav>
         <img src={Logo} alt="logo Kenzie Hub" />
-        <button type="button" onClick={() => logout}>Sair</button>
+        <button type="button" onClick={() => logout()}>Sair</button>
       </StyledNav>
 
       <header>
@@ -38,15 +47,15 @@ const Dashboard = () => {
       <StyledTechs>
         <div>
           <h2>Tecnologias</h2>
-          <Link to={'/modal'}>+</Link>
+          <button onClick={()=> setModalIsOpen(!modalIsOpen)}>+</button>
         </div>
         <ul>
-          {techs.map(tech => (
-            <li key = {tech.id}>
-              <h2>{tech.title}</h2>
+          {techs.map(({id, title, status}) => (
+            <li key = {id}>
+              <h2>{title}</h2>
               <div>
-                  <h3>{tech.status}</h3>
-                  <button type="button" onClick={() => removeTech(tech.id)}>
+                  <h3>{status}</h3>
+                  <button type="button" onClick={() => removeTech(id)}>
                     <BsTrash/>
                   </button>
               </div>
@@ -54,7 +63,9 @@ const Dashboard = () => {
           ))}
         </ul>
       </StyledTechs>
-    </Container>
+      {modalIsOpen && <AddModal/>}
+    </ContainerDashboard>
+
   )
 };
 export default Dashboard;
