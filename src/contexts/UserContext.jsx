@@ -4,14 +4,17 @@ import apiKenzieHub from '../services/api';
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { StyledTechs } from '../pages/Dashboard/styles';
 
 export const UserContext = createContext({});
 
 const UserProvider = ({children})  => {
     const [user, setUser] = useState([]);
+    const [techs, setTechs] = useState([]);
     const [globalLoading, setGlobalLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
+
 
     async function registerUser(data) {
         try{
@@ -52,6 +55,9 @@ const UserProvider = ({children})  => {
                     apiKenzieHub.defaults.headers.authorization = `Bearer ${token}`
                     const {data} = await apiKenzieHub.get('/profile');
                     setUser(data);
+                    setTechs(data.techs);
+                    const toNavigate = location.state?.from?.pathname || '/dashboard'
+                    navigate(toNavigate, {replace: true});
                 }
                 catch(error){
                     localStorage.removeItem('@KENZIEHUB-TOKEN');
@@ -77,7 +83,7 @@ const UserProvider = ({children})  => {
 
     
     async function loginUser(data){
-
+        
         try{
             setGlobalLoading(true);
             const response = await apiKenzieHub.post('/sessions', data);
@@ -85,6 +91,9 @@ const UserProvider = ({children})  => {
             const {user: userResponse, token} = response.data;
             apiKenzieHub.defaults.headers.authorization = `Bearer ${token}`;
             setUser(userResponse);
+            console.log(user)
+            setTechs(userResponse.techs)
+
             localStorage.setItem('@KENZIEHUB-TOKEN', token);
             localStorage.setItem('@KENZIEHUB-USERID', user.id);
 
@@ -113,7 +122,7 @@ const UserProvider = ({children})  => {
     
 
     return (
-        <UserContext.Provider value={{registerUser, loginUser, user, setUser, globalLoading, setGlobalLoading}}>
+        <UserContext.Provider value={{registerUser, loginUser, user, setUser, techs, setTechs, globalLoading, setGlobalLoading}}>
             {children}
         </UserContext.Provider>
     );

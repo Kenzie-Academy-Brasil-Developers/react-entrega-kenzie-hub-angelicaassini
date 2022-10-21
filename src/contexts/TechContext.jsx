@@ -9,9 +9,9 @@ import { UserContext } from "./UserContext";
 export const TechContext = createContext({});
 
 const TechProvider = ({children}) => {
-    const {setGlobalLoading} = useContext(UserContext)
+    const {techs, setTechs, setGlobalLoading} = useContext(UserContext)
 
-    const [techs, setTechs] = useState([]);
+   
     const [modalIsOpen, setModalIsOpen] = useState(false)
     
     

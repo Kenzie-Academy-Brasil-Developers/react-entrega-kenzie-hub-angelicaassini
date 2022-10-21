@@ -27,8 +27,8 @@ const Dashboard = () => {
   function logout() {
     setUser(null);
     localStorage.removeItem('@KENZIEHUB-TOKEN');
-    localStorage.removeItem('@KENZIEHUB-USERID');
-    setTechs([])
+    // localStorage.removeItem('@KENZIEHUB-USERID');
+    // setTechs([])
     navigate("/", { replace: true });
   }
   
