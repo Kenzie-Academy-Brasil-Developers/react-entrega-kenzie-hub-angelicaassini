@@ -4,7 +4,6 @@ import apiKenzieHub from '../services/api';
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { StyledTechs } from '../pages/Dashboard/styles';
 
 export const UserContext = createContext({});
 
@@ -56,8 +55,8 @@ const UserProvider = ({children})  => {
                     const {data} = await apiKenzieHub.get('/profile');
                     setUser(data);
                     setTechs(data.techs);
-                    const toNavigate = location.state?.from?.pathname || '/dashboard'
-                    navigate(toNavigate, {replace: true});
+                    // const toNavigate = location.state?.from?.pathname || '/dashboard'
+                    // navigate(toNavigate, {replace: true});
                 }
                 catch(error){
                     localStorage.removeItem('@KENZIEHUB-TOKEN');
