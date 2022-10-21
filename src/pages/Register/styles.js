@@ -29,6 +29,7 @@ export const StyledRegisterForm = styled.form`
             font-weight: 700;
             font-size: 18px;
             color: var(--Grey-0);
+            padding-left: 22px;
         }
 
         h3{
@@ -36,6 +37,8 @@ export const StyledRegisterForm = styled.form`
             font-weight: 400;
             font-size: 12px;
             color: var(--Grey-1);
+
+            padding-left: 22px;
         }
     }
 

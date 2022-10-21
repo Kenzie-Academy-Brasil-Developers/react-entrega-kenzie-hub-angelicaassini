@@ -86,20 +86,16 @@ const UserProvider = ({children})  => {
         try{
             setGlobalLoading(true);
             const response = await apiKenzieHub.post('/sessions', data);
-            console.log(response)
+            
             const {user: userResponse, token} = response.data;
             apiKenzieHub.defaults.headers.authorization = `Bearer ${token}`;
             setUser(userResponse);
-            console.log(user)
             setTechs(userResponse.techs)
 
             localStorage.setItem('@KENZIEHUB-TOKEN', token);
-            localStorage.setItem('@KENZIEHUB-USERID', user.id);
+            localStorage.setItem('@KENZIEHUB-USERID', userResponse.id);
 
-            console.log(location.state?.from?.pathname)
             const toNavigate = location.state?.from?.pathname || '/dashboard'
-            console.log(toNavigate)
-            
             navigate(toNavigate, {replace: true});
         }
         catch(error){
