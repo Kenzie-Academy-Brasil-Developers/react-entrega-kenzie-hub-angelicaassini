@@ -1,4 +1,4 @@
-import { UserContext } from "../../contexts/UserContext";
+import { IUserContext, UserContext } from "../../contexts/UserContext";
 import { useContext } from "react";
 
 import { useForm } from "react-hook-form";
@@ -7,6 +7,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import "react-toastify/dist/ReactToastify.css";
+
+export interface  ILoginForm{
+  email: string;
+  password: string;
+}
 
 import { Container, StyledLoginForm } from "./styles";
 import { LinkStyled as Link } from "./styles";
@@ -17,10 +22,10 @@ const schema = yup.object({
 });
 
 const Login = () => {
-  const { loginUser } = useContext(UserContext);
+  const { loginUser}  = useContext<IUserContext>(UserContext);
 
   const {register, handleSubmit, formState: { errors }} = 
-  useForm({resolver: yupResolver(schema)});
+  useForm<ILoginForm>({resolver: yupResolver(schema)});
 
   return (
     <Container>

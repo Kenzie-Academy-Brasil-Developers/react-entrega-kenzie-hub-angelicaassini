@@ -17,12 +17,16 @@ const schema = yup.object({
   status: yup.string().required("Status é obrigatório"),
 });
 
+export interface ITechsFormData{
+  title: string;
+  status: string;
+}
 
 const AddModal = () => {
   const {createTech, setModalIsOpen, techs} = useContext(TechContext)
 
   const {register, handleSubmit, formState: {errors} } =
-  useForm({resolver: yupResolver(schema)});
+  useForm<ITechsFormData>({resolver: yupResolver(schema)});
 
   useEffect(() =>{
     

@@ -1,4 +1,4 @@
-import { TechContext } from "../../contexts/TechContext";
+import { ITechContext, TechContext } from "../../contexts/TechContext";
 
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,14 +9,14 @@ import {BsTrash} from "react-icons/bs";
 import AddModal from "../../components/Modal/AddModal";
 
 import Logo from '../../services/Logo.png'
-import { UserContext } from "../../contexts/UserContext";
+import { IUserContext, UserContext } from "../../contexts/UserContext";
 
 
 const Dashboard = () => {
-  const {modalIsOpen, setModalIsOpen, removeTech, techs, setTechs} 
-    = useContext(TechContext);
+  const {modalIsOpen, setModalIsOpen, removeTech, techs} 
+    = useContext<ITechContext>(TechContext);
   
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser } = useContext<IUserContext>(UserContext);
 
   const navigate = useNavigate();
 
@@ -28,7 +28,6 @@ const Dashboard = () => {
     setUser(null);
     localStorage.removeItem('@KENZIEHUB-TOKEN');
     // localStorage.removeItem('@KENZIEHUB-USERID');
-    // setTechs([])
     navigate("/", { replace: true });
   }
   
@@ -40,8 +39,8 @@ const Dashboard = () => {
       </StyledNav>
 
       <header>
-        <p>Olá, {user.name}</p>
-        <span>{user.course_module}</span>
+        <p>Olá, {user?.name}</p>
+        <span>{user?.course_module}</span>
       </header>
 
       <StyledTechs>

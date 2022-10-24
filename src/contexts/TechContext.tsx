@@ -2,20 +2,42 @@ import { createContext, useContext, useState } from "react";
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { ITechsFormData } from "../components/Modal/AddModal";
 
 import apiKenzieHub from "../services/api";
-import { UserContext } from "./UserContext";
+import { IUserContext, UserContext } from "./UserContext";
 
-export const TechContext = createContext({});
+export interface ITechProviderProps{
+    children: React.ReactNode;
+}
 
-const TechProvider = ({children}) => {
-    const {techs, setTechs, setGlobalLoading} = useContext(UserContext)
+interface IModalIsOpen{
+    modalIsOpen: boolean;
+    setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-   
-    const [modalIsOpen, setModalIsOpen] = useState(false)
+export interface ITechContext{
+    techs:ITechsResponse[];
+    setTechs: React.Dispatch<React.SetStateAction<ITechsResponse[]>>;
+    createTech:(data: ITechsFormData)  => void;
+    removeTech:(tech_id: string) => void;
+    modalIsOpen:boolean;
+    setModalIsOpen:React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface ITechsResponse{
+    id: string;
+    title: string;
+    status: string;
+}
+
+export const TechContext = createContext({} as ITechContext);
+
+const TechProvider = ({children}: ITechProviderProps) => {
+    const {techs, setTechs, setGlobalLoading} = useContext<IUserContext>(UserContext) 
+    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
     
-    
-        async function createTech(data){            
+        async function createTech(data: ITechsFormData){            
                 setGlobalLoading(true)
                 try{
                     const newTech = await apiKenzieHub.post("/users/techs", data)
@@ -39,7 +61,7 @@ const TechProvider = ({children}) => {
             
         }
 
-    async function removeTech(tech_id){
+    async function removeTech(tech_id: string){
         const token = localStorage.getItem("@KENZIEHUB-TOKEN");
 
         if(token){

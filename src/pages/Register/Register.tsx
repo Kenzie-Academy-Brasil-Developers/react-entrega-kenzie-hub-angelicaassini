@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { Container, StyledRegisterForm } from "./styles";
 import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
+import { IUserContext, UserContext } from "../../contexts/UserContext";
 
 const schema = yup.object({
     name:                 yup.string().required("Nome é obrigatório"),
@@ -26,13 +26,24 @@ const schema = yup.object({
 
 })
 
+export interface IRegisterFormData{
+    name: string;
+    email: string;
+    password: string;
+    passwordConfirmation: string;
+    bio: string;
+    contact: string;
+    course_module: string;
+
+}
+
 const Register = () => {
 
-    const {register, handleSubmit, formState:{errors}} = useForm({
+    const {register, handleSubmit, formState:{errors}} = useForm<IRegisterFormData>({
         resolver: yupResolver(schema),
     });
 
-    const {registerUser} = useContext(UserContext)  
+    const {registerUser} = useContext<IUserContext>(UserContext)  
 
     return(
         <Container> 
