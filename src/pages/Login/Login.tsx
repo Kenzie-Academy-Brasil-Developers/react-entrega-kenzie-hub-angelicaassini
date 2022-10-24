@@ -8,13 +8,13 @@ import * as yup from "yup";
 
 import "react-toastify/dist/ReactToastify.css";
 
+import { Container, StyledLoginForm } from "./styles";
+import { LinkStyled as Link } from "./styles";
+
 export interface  ILoginForm{
   email: string;
   password: string;
 }
-
-import { Container, StyledLoginForm } from "./styles";
-import { LinkStyled as Link } from "./styles";
 
 const schema = yup.object({
   email: yup.string().required("Email é obrigatório"),

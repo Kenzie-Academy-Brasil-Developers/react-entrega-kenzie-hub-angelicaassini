@@ -1,3 +1,4 @@
+import Logo from '../../services/Logo.png'
 import { ITechContext, TechContext } from "../../contexts/TechContext";
 
 import { useContext, useEffect } from "react";
@@ -8,7 +9,6 @@ import { ContainerDashboard, StyledNav, StyledTechs } from "./styles";
 import {BsTrash} from "react-icons/bs";
 import AddModal from "../../components/Modal/AddModal";
 
-import Logo from '../../services/Logo.png'
 import { IUserContext, UserContext } from "../../contexts/UserContext";
 
 
