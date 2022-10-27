@@ -61,6 +61,7 @@ export const StyledLoginForm = styled.form`
 
     p{
         color: red;
+        padding-left: 22px;
     }
 
     button{

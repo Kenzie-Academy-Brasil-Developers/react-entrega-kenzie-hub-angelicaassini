@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { createContext, useContext, useState } from "react";
 
 import { toast } from "react-toastify";
@@ -5,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ITechsFormData } from "../components/Modal/AddModal";
 
 import apiKenzieHub from "../services/api";
-import { IUserContext, UserContext } from "./UserContext";
+import { IApi, IUserContext, UserContext } from "./UserContext";
 
 export interface ITechProviderProps{
     children: React.ReactNode;
@@ -44,9 +45,10 @@ const TechProvider = ({children}: ITechProviderProps) => {
                     setTechs((oldTechs) => [...oldTechs, newTech.data])
                 }
                 catch(error){
-                    toast.error('Ops! Algo deu errado', {
+                    const requestError = error as AxiosError<IApi>;
+                    toast.error(requestError.response?.data.message, {
                         position: "top-right",
-                        autoClose: 4000,
+                        autoClose: 3500,
                         hideProgressBar: false,
                         closeOnClick: true,
                         pauseOnHover: true,
@@ -71,7 +73,7 @@ const TechProvider = ({children}: ITechProviderProps) => {
                 setTechs(newTechs)
                 toast.success('Tecnologia removida com sucesso!', {
                     position: "top-right",
-                    autoClose: 4000,
+                    autoClose: 2500,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -84,7 +86,7 @@ const TechProvider = ({children}: ITechProviderProps) => {
             catch(error){
                 toast.error('Ops! Algo deu errado', {
                     position: "top-right",
-                    autoClose: 4000,
+                    autoClose: 2500,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -98,7 +100,7 @@ const TechProvider = ({children}: ITechProviderProps) => {
     
 
     return(
-        <TechContext.Provider value={{techs, setTechs, createTech, removeTech, modalIsOpen, setModalIsOpen}}>
+        <TechContext.Provider value={{createTech, removeTech, techs, setTechs, modalIsOpen, setModalIsOpen}}>
             {/* {console.log(techs)} */}
             {children}
         </TechContext.Provider>

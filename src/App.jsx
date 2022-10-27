@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <GlobalStyle/>
-      <ToastContainer />
+      <ToastContainer/>
 
       <UserProvider>
         <TechProvider>   

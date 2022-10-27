@@ -39,7 +39,7 @@ export interface IUserContext {
   setGlobalLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface IApi {
+export interface IApi {
   status: string;
   message: string;
 }
@@ -59,7 +59,7 @@ const UserProvider = ({ children }: IUserProviderProps) => {
       navigate("/");
       toast.success("Conta criada com sucesso!", {
         position: "top-right",
-        autoClose: 4000,
+        autoClose: 2500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -68,9 +68,9 @@ const UserProvider = ({ children }: IUserProviderProps) => {
         theme: "dark",
       });
     } catch (error) {
-      toast.error("Ops! Algo deu errado", {
+      toast.error("Ops! Seu cadastro deu errado", {
         position: "top-right",
-        autoClose: 4000,
+        autoClose: 2500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -90,6 +90,7 @@ const UserProvider = ({ children }: IUserProviderProps) => {
         try {
           apiKenzieHub.defaults.headers.authorization = `Bearer ${token}`;
           const { data } = await apiKenzieHub.get("/profile");
+          console.log(data)
           setUser(data);
           setTechs(data.techs);
           const toNavigate = location.state?.from?.pathname || "/dashboard";
@@ -100,7 +101,7 @@ const UserProvider = ({ children }: IUserProviderProps) => {
           const requestError = error as AxiosError<IApi>;
           toast.error(requestError.response?.data.message, {
             position: "top-right",
-            autoClose: 4000,
+            autoClose: 3500,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -108,8 +109,9 @@ const UserProvider = ({ children }: IUserProviderProps) => {
             progress: undefined,
             theme: "dark",
           });
-        } finally {
-          setGlobalLoading(false);
+        } 
+        finally {
+            setGlobalLoading(false);
         }
       }
     }
@@ -131,10 +133,20 @@ const UserProvider = ({ children }: IUserProviderProps) => {
 
       const toNavigate = location.state?.from?.pathname || "/dashboard";
       navigate(toNavigate, { replace: true });
-    } catch (error) {
-      toast.error("Ops! Algo deu errado", {
+      toast.success("Login realizado com sucesso!", {
         position: "top-right",
-        autoClose: 4000,
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } catch (error) {
+      toast.error("Ops! Algo deu errado, tente novamente", {
+        position: "top-right",
+        autoClose: 2500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -150,14 +162,10 @@ const UserProvider = ({ children }: IUserProviderProps) => {
   return (
     <UserContext.Provider
       value={{
-        registerUser,
-        loginUser,
-        user,
-        setUser,
-        techs,
-        setTechs,
-        globalLoading,
-        setGlobalLoading,
+        registerUser, loginUser,
+        user, setUser,
+        techs, setTechs,
+        globalLoading, setGlobalLoading,
       }}
     >
       {children}

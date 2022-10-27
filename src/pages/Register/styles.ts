@@ -93,5 +93,6 @@ export const StyledRegisterForm = styled.form`
     p{
         font-size: 14px;
         color: red;
+        padding-left: 22px;
     }
 `
