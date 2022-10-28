@@ -1,11 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import apiKenzieHub from "../services/api";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { IRegisterFormData } from "../pages/Register/Register";
-import { ILoginForm } from "../pages/Login/Login";
+import { ILoginFormData } from "../pages/Login/Login";
 import { AxiosError } from "axios";
 
 interface IUserProviderProps {
@@ -30,7 +30,7 @@ interface ITech {
 
 export interface IUserContext {
   registerUser: (data: IRegisterFormData) => void;
-  loginUser: (data: ILoginForm) => void;
+  loginUser: (data: ILoginFormData) => void;
   user: IUser | null;
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
   techs: ITech[];
@@ -44,7 +44,7 @@ export interface IApi {
   message: string;
 }
 
-export const UserContext = createContext({} as IUserContext);
+export const UserContext = createContext<IUserContext>({} as IUserContext);
 
 const UserProvider = ({ children }: IUserProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null);
@@ -118,7 +118,7 @@ const UserProvider = ({ children }: IUserProviderProps) => {
     loadUser();
   }, []);
 
-  async function loginUser(data: ILoginForm) {
+  async function loginUser(data: ILoginFormData) {
     try {
       setGlobalLoading(true);
       const response = await apiKenzieHub.post("/sessions", data);
@@ -173,3 +173,8 @@ const UserProvider = ({ children }: IUserProviderProps) => {
   );
 };
 export default UserProvider;
+
+export function useUserContext(){
+  const context = useContext<IUserContext>(UserContext);
+  return context
+}

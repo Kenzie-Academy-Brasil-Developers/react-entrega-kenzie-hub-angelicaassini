@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Container, StyledLoginForm } from "./styles";
 import { LinkStyled as Link } from "./styles";
 
-export interface  ILoginForm{
+export interface  ILoginFormData{
   email: string;
   password: string;
 }
@@ -25,7 +25,7 @@ const Login = () => {
   const { loginUser}  = useContext<IUserContext>(UserContext);
 
   const {register, handleSubmit, formState: { errors }} = 
-  useForm<ILoginForm>({resolver: yupResolver(schema)});
+  useForm<ILoginFormData>({resolver: yupResolver(schema)});
 
   return (
     <Container>

@@ -32,7 +32,7 @@ interface ITechsResponse{
     status: string;
 }
 
-export const TechContext = createContext({} as ITechContext);
+export const TechContext = createContext<ITechContext>({} as ITechContext);
 
 const TechProvider = ({children}: ITechProviderProps) => {
     const {techs, setTechs, setGlobalLoading} = useContext<IUserContext>(UserContext) 
@@ -107,3 +107,8 @@ const TechProvider = ({children}: ITechProviderProps) => {
     )
 }
 export default TechProvider;
+
+export function useTechContext(){
+    const techcontext = useContext<ITechContext>(TechContext);
+    return techcontext
+}
